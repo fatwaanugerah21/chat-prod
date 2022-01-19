@@ -11,9 +11,11 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "SERVER_URL": () => (/* binding */ SERVER_URL),
+/* harmony export */   "SDCONNECT_URL": () => (/* binding */ SDCONNECT_URL),
 /* harmony export */   "DOMAIN_NAME": () => (/* binding */ DOMAIN_NAME)
 /* harmony export */ });
-const SERVER_URL = "localhost:6060";
+const SERVER_URL = "chat.dev.sdconnect.vn";
+const SDCONNECT_URL = "https://shop.sdconnect.vn";
 const DOMAIN_NAME = "sdconnect.vn";
 
 /***/ }),
@@ -351,11 +353,15 @@ __webpack_require__.r(__webpack_exports__);
 
 class LocalStorageUtil {
   static setObject(key, value) {
-    js_cookie__WEBPACK_IMPORTED_MODULE_0__.default.set(key, JSON.stringify(value));
+    js_cookie__WEBPACK_IMPORTED_MODULE_0__.default.set(key, JSON.stringify(value), {
+      domain: ".sdconnect.vn"
+    });
   }
 
   static getObject(key) {
-    const value = js_cookie__WEBPACK_IMPORTED_MODULE_0__.default.get(key);
+    const value = js_cookie__WEBPACK_IMPORTED_MODULE_0__.default.get(key, {
+      domain: ".sdconnect.vn"
+    });
     if (!value) return false;
     return value && JSON.parse(value);
   }
@@ -5109,7 +5115,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
 
       const parsedNav = _lib_navigation_js__WEBPACK_IMPORTED_MODULE_16__.default.parseUrlHash(window.location.hash);
       this.resetContactList();
-      const token = this.state.persist ? _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_15__.default.getObject("auth-token") : undefined;
+      const token = this.state.persist ? _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_15__.default.getObject("chat-cred-token") : undefined;
 
       if (token) {
         this.setState({
@@ -5475,7 +5481,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
           autoLogin: false
         });
         this.handleError(err.message, "err");
-        localStorage.removeItem("auth-token");
+        localStorage.removeItem("chat-cred-token");
         _lib_navigation_js__WEBPACK_IMPORTED_MODULE_16__.default.navigateTo("");
       });
     } else {
@@ -5497,7 +5503,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     this.handleError();
 
     if (_lib_local_storage_js__WEBPACK_IMPORTED_MODULE_15__.default.getObject("keep-logged-in")) {
-      _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_15__.default.setObject("auth-token", this.tinode.getAuthToken());
+      _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_15__.default.setObject("chat-cred-token", this.tinode.getAuthToken());
     }
 
     const goToTopic = this.state.requestedTopic;
@@ -5515,7 +5521,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     });
     me.subscribe(me.startMetaQuery().withLaterSub().withDesc().withTags().withCred().build()).catch(err => {
       this.tinode.disconnect();
-      localStorage.removeItem("auth-token");
+      localStorage.removeItem("chat-cred-token");
       this.handleError(err.message, "err");
       _lib_navigation_js__WEBPACK_IMPORTED_MODULE_16__.default.navigateTo("");
     }).finally(() => {
@@ -6189,7 +6195,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
 
   handleLogout() {
     (0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_18__.updateFavicon)(0);
-    localStorage.removeItem("auth-token");
+    localStorage.removeItem("chat-cred-token");
     localStorage.removeItem("firebase-token");
     localStorage.removeItem("settings");
 
@@ -10888,7 +10894,13 @@ class SideNavbar extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
     })) : null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       id: "sidepanel-title",
       className: "panel-title"
-    }, this.props.title));
+    }, this.props.title), this.props.state === "login" ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_menu_start_jsx__WEBPACK_IMPORTED_MODULE_4__.default, {
+      onSignUp: this.props.onSignUp,
+      onSettings: this.props.onSettings
+    }) : this.props.state === "contacts" ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_menu_contacts_jsx__WEBPACK_IMPORTED_MODULE_3__.default, {
+      onNewTopic: this.props.onNewTopic,
+      onSettings: this.props.onSettings
+    }) : null);
   }
 
 }
