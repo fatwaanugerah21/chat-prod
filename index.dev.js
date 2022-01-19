@@ -14,7 +14,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SDCONNECT_URL": () => (/* binding */ SDCONNECT_URL),
 /* harmony export */   "DOMAIN_NAME": () => (/* binding */ DOMAIN_NAME)
 /* harmony export */ });
-const SERVER_URL = "chat.dev.sdconnect.vn";
+const SERVER_URL = "localhost:6060";
 const SDCONNECT_URL = "https://shop.sdconnect.vn";
 const DOMAIN_NAME = "sdconnect.vn";
 
@@ -5500,9 +5500,11 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   }
 
   handleLoginSuccessful() {
+    alert("Succes");
     this.handleError();
 
     if (_lib_local_storage_js__WEBPACK_IMPORTED_MODULE_15__.default.getObject("keep-logged-in")) {
+      console.log(this.tinode.getAuthToken());
       _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_15__.default.setObject("chat-cred-token", this.tinode.getAuthToken());
     }
 
@@ -11176,7 +11178,7 @@ class UploadingImage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "inline-image"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement('img', this.props), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", this.props), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "rounded-container"
     }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_file_progress_jsx__WEBPACK_IMPORTED_MODULE_2__.default, {
       progress: this.props.progress,
@@ -11185,7 +11187,6 @@ class UploadingImage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
   }
 
 }
-;
 
 /***/ }),
 
